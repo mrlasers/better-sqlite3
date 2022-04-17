@@ -24,6 +24,7 @@
     "@yarnpkg/pnpify": "^4.0.0-rc.2",
     "chai": "^4.3.4",
     "cli-color": "^2.0.0",
+    "fp-ts": "^2.11.10",
     "fs-extra": "^10.0.0",
     "mocha": "^8.3.2",
     "nodemark": "^0.3.0",

@@ -1,12 +1,80 @@
 'use strict'
 const fs = require('fs')
 const path = require('path')
-const util = require('./util')
+import * as E from 'fp-ts/Either'
+
+// const util = require('./util')
+import * as util from './util'
+
 const SqliteError = require('./sqlite-error')
 
 let DEFAULT_ADDON
 
-function Database(filenameGiven, options) {
+export type MrDatabaseOptions = {
+  readonly?: boolean
+  fileMustExist?: boolean
+  timeout?: number
+  verbose?: Function
+  nativeBinding?: string
+}
+
+export class MrDatabase {
+  [util.cppdb] = null
+
+  constructor(filenameGiven: string, options: MrDatabaseOptions = {}) {
+    let buffer
+    // is this totally redundant because typescript?
+    if (Buffer.isBuffer(filenameGiven)) {
+      buffer = filenameGiven
+      filenameGiven = ':memory:'
+    }
+
+    // Interpret options
+    const filename = filenameGiven.trim()
+    const anonymous = filename === '' || filename === ':memory:'
+    const readonly = options?.readonly ?? false
+    const fileMustExist = options?.fileMustExist ?? false
+    const timeout = options?.timeout ?? 5000
+    const verbose = options?.verbose ?? null
+    const nativeBindingPath = options?.nativeBinding ?? null
+
+    // Validate interpreted options
+    if (readonly && anonymous && !buffer)
+      throw new TypeError('In-memory/temporary databases cannot be readonly')
+    if (!Number.isInteger(timeout) || timeout < 0)
+      throw new TypeError(
+        'Expected the "timeout" option to be a positive integer'
+      )
+    if (timeout > 0x7fffffff)
+      throw new RangeError('Option "timeout" cannot be greater than 2147483647')
+
+    // Load the native addon
+    let addon
+    if (nativeBindingPath === null) {
+      addon =
+        DEFAULT_ADDON ||
+        (DEFAULT_ADDON = require('bindings')('better_sqlite3.node'))
+    } else {
+      addon = require(path
+        .resolve(nativeBindingPath)
+        .replace(/(\.node)?$/, '.node'))
+    }
+
+    if (!addon.isInitialized) {
+      addon.setErrorConstructor(SqliteError)
+      addon.isInitialized = true
+    }
+
+    // Make sure the specified directory exists
+    if (!anonymous && !fs.existsSync(path.dirname(filename))) {
+      throw new TypeError(
+        'Cannot open database because the directory does not exist'
+      )
+    }
+  }
+}
+
+function Database(filenameGiven, options): void {
   if (new.target == null) {
     return new Database(filenameGiven, options)
   }

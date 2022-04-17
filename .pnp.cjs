@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bindings", "npm:1.5.0"],\
             ["chai", "npm:4.3.6"],\
             ["cli-color", "npm:2.0.2"],\
+            ["fp-ts", "npm:2.11.10"],\
             ["fs-extra", "npm:10.1.0"],\
             ["mocha", "npm:8.4.0"],\
             ["nodemark", "npm:0.3.0"],\
@@ -717,6 +718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bindings", "npm:1.5.0"],\
             ["chai", "npm:4.3.6"],\
             ["cli-color", "npm:2.0.2"],\
+            ["fp-ts", "npm:2.11.10"],\
             ["fs-extra", "npm:10.1.0"],\
             ["mocha", "npm:8.4.0"],\
             ["nodemark", "npm:0.3.0"],\
@@ -1845,6 +1847,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["asynckit", "npm:0.4.0"],\
             ["combined-stream", "npm:1.0.8"],\
             ["mime-types", "npm:2.1.35"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["fp-ts", [\
+        ["npm:2.11.10", {\
+          "packageLocation": "./.yarn/cache/fp-ts-npm-2.11.10-f20def3ab6-4a6b5f99ee.zip/node_modules/fp-ts/",\
+          "packageDependencies": [\
+            ["fp-ts", "npm:2.11.10"]\
           ],\
           "linkType": "HARD"\
         }]\
