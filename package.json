@@ -20,6 +20,8 @@
     "prebuild-install": "^7.0.0"
   },
   "devDependencies": {
+    "@types/node": "^17.0.24",
+    "@yarnpkg/pnpify": "^4.0.0-rc.2",
     "chai": "^4.3.4",
     "cli-color": "^2.0.0",
     "fs-extra": "^10.0.0",
@@ -27,9 +29,11 @@
     "nodemark": "^0.3.0",
     "prebuild": "^11.0.0",
     "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "typescript": "^4.6.3"
   },
   "scripts": {
+    "build": "tsc",
     "install": "prebuild-install || npm run build-release",
     "build-release": "node-gyp rebuild --release",
     "build-debug": "node-gyp rebuild --debug",
@@ -50,5 +54,6 @@
     "aggregate functions",
     "window functions",
     "database"
-  ]
+  ],
+  "packageManager": "yarn@3.2.0"
 }
